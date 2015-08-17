@@ -1,6 +1,6 @@
 #coding: utf
 __author__ = u'pochemuto'
-import sys, plistlib, os
+import sys, plistlib, os, argparse
 from os import path
 from workflow import Workflow, ICON_HELP
 
@@ -20,23 +20,30 @@ def read_info(info_file):
     wf_path = path.dirname(info_file)
     for object in plist['objects']:
         tp = object['type']
-        if tp == 'alfred.workflow.input.scriptfilter':
+        if 'config' in object and 'keyword' in object['config']:
             config = object['config']
-            if 'keyword' in config:
-                action_icon = path.join(wf_path, object['uid']) + '.png'
-                main_icon = path.join(wf_path, 'icon') + '.png'
-                if path.isfile(action_icon):
-                    icon = action_icon
-                elif path.isfile(main_icon):
-                    icon = main_icon
-                else:
-                    icon = ICON_HELP
-                items.append(dict(
-                    title=u'{} - {}'.format(config['keyword'], config['title']),
-                    subtitle=wf_name,
-                    icon=icon,
-                    valid=False
-                ))
+            action_icon = path.join(wf_path, object['uid']) + '.png'
+            main_icon = path.join(wf_path, 'icon') + '.png'
+            if path.isfile(action_icon):
+                icon = action_icon
+            elif path.isfile(main_icon):
+                icon = main_icon
+            else:
+                icon = ICON_HELP
+
+            if 'title' in config:
+                title = config['title']
+            elif 'text' in config:
+                title = config['text']
+            else:
+                title = wf_name
+
+            items.append(dict(
+                title=u'{} - {}'.format(config['keyword'], title),
+                subtitle=wf_name if wf_name != title else None,
+                icon=icon,
+                valid=False
+            ))
     return items
 
 
