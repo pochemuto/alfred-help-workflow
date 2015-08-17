@@ -8,8 +8,17 @@
 	<string>Tools</string>
 	<key>connections</key>
 	<dict>
-		<key>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</key>
-		<array/>
+		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6452A82F-1D53-459E-BB13-4BC56A788B89</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>pochemuto</string>
@@ -24,19 +33,52 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python alfredhelp.py</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6452A82F-1D53-459E-BB13-4BC56A788B89</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
 				<key>keyword</key>
 				<string>help</string>
-				<key>text</key>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>script</key>
+				<string>python alfredhelp.py</string>
+				<key>title</key>
 				<string>List all registered alfred keywords</string>
+				<key>type</key>
+				<integer>0</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</string>
+			<string>68637FD7-2E45-4403-B3E4-DD061FD0FF47</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -45,10 +87,15 @@
 	<string></string>
 	<key>uidata</key>
 	<dict>
-		<key>2C99F6F1-EF16-4CF1-9762-5D05A1FFAA4D</key>
+		<key>6452A82F-1D53-459E-BB13-4BC56A788B89</key>
 		<dict>
 			<key>ypos</key>
-			<real>60</real>
+			<real>10</real>
+		</dict>
+		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>
