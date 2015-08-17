@@ -6,7 +6,6 @@ from workflow import Workflow, ICON_HELP
 
 
 def main(wf):
-    wf.add_item(u'Current path', wf.alfred_env['preferences'], valid=False)
     keywords = scan(path.join(wf.alfred_env['preferences'], 'workflows'))
     for kw in keywords:
         wf.add_item(**kw)
