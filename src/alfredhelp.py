@@ -2,7 +2,7 @@
 __author__ = u'pochemuto'
 import sys, plistlib, os
 from os import path
-from workflow import Workflow
+from workflow import Workflow, ICON_HELP
 
 
 def main(wf):
@@ -18,14 +18,24 @@ def read_info(info_file):
     items = []
     plist = plistlib.readPlist(info_file)
     wf_name = plist['name']
+    wf_path = path.dirname(info_file)
     for object in plist['objects']:
         tp = object['type']
         if tp == 'alfred.workflow.input.scriptfilter':
             config = object['config']
             if 'keyword' in config:
+                action_icon = path.join(wf_path, object['uid']) + '.png'
+                main_icon = path.join(wf_path, 'icon') + '.png'
+                if path.isfile(action_icon):
+                    icon = action_icon
+                elif path.isfile(main_icon):
+                    icon = main_icon
+                else:
+                    icon = ICON_HELP
                 items.append(dict(
                     title=u'{} - {}'.format(config['keyword'], config['title']),
                     subtitle=wf_name,
+                    icon=icon,
                     valid=False
                 ))
     return items
