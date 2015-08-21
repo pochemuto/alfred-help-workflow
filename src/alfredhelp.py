@@ -6,12 +6,44 @@ from workflow import Workflow, ICON_HELP
 
 
 def main(wf):
-    keywords = scan(path.join(wf.alfred_env['preferences'], 'workflows'))
-    for kw in keywords:
-        wf.add_item(**kw)
+    actions = scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+
+    if len(wf.args):
+        query = wf.args[0]
+    else:
+        query = None
+
+    if query:
+        actions = wf.filter(query, actions, key=search_key)
+
+    for action in actions:
+        argument = action.keyword
+        if action.add_space:
+            argument += u' '
+        wf.add_item(
+            title=u'{} - {}'.format(action.keyword, action.title),
+            subtitle=action.subtitle,
+            icon=action.icon,
+            arg=argument,
+            valid=True
+        )
     wf.send_feedback()
     return 0
 
+
+class Action:
+    def __init__(self):
+        self.icon = None
+        self.keyword = None
+        self.title = None
+        self.subtitle = None
+        self.workflow_name = None
+        self.add_space = False
+
+def search_key(action):
+    elements = [action.keyword, action.title, action.subtitle]
+    elements = filter(lambda n: n is not None, elements)
+    return u' '.join(elements)
 
 def read_info(info_file):
     items = []
@@ -22,29 +54,31 @@ def read_info(info_file):
         tp = object['type']
         if 'config' in object and 'keyword' in object['config']:
             config = object['config']
+
+            action = Action()
+            action.workflow_name = wf_name
+            action.keyword = config['keyword']
+            action.add_space = 'argumenttype' in config and config['argumenttype'] in [0, 1] and config['withspace']
+
             action_icon = path.join(wf_path, object['uid']) + '.png'
             main_icon = path.join(wf_path, 'icon') + '.png'
             if path.isfile(action_icon):
-                icon = action_icon
+                action.icon = action_icon
             elif path.isfile(main_icon):
-                icon = main_icon
+                action.icon = main_icon
             else:
-                icon = ICON_HELP
+                action.icon = ICON_HELP
 
             if 'title' in config:
-                title = config['title']
+                action.title = config['title']
             elif 'text' in config:
-                title = config['text']
+                action.title = config['text']
             else:
-                title = wf_name
+                action.title = wf_name
 
-            items.append(dict(
-                title=u'{} - {}'.format(config['keyword'], title),
-                subtitle=wf_name if wf_name != title else None,
-                icon=icon,
-                arg=config['keyword'],
-                valid=True
-            ))
+            action.subtitle = wf_name if wf_name != action.title else None
+
+            items.append(action)
     return items
 
 
