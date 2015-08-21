@@ -12,7 +12,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>6452A82F-1D53-459E-BB13-4BC56A788B89</string>
+				<string>786140ED-62A9-4C41-81E3-923FE306E61A</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -69,16 +69,16 @@
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
-				<integer>102</integer>
+				<integer>68</integer>
 				<key>script</key>
-				<string>python alfredhelp.py</string>
+				<string>tell application "Alfred 2" to search "{query}"</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>6</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>6452A82F-1D53-459E-BB13-4BC56A788B89</string>
+			<string>786140ED-62A9-4C41-81E3-923FE306E61A</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -87,12 +87,12 @@
 	<string></string>
 	<key>uidata</key>
 	<dict>
-		<key>6452A82F-1D53-459E-BB13-4BC56A788B89</key>
+		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
 		</dict>
-		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
+		<key>786140ED-62A9-4C41-81E3-923FE306E61A</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>

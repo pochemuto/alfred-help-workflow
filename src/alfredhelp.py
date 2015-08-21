@@ -42,7 +42,8 @@ def read_info(info_file):
                 title=u'{} - {}'.format(config['keyword'], title),
                 subtitle=wf_name if wf_name != title else None,
                 icon=icon,
-                valid=False
+                arg=config['keyword'],
+                valid=True
             ))
     return items
 
@@ -52,7 +53,6 @@ def scan(workflows_dir):
     items = []
     for wf_dir in os.listdir(workflows_dir):
         info_file = path.join(workflows_dir, wf_dir, 'info.plist')
-        log.debug('find {}'.format(info_file))
         if path.isfile(info_file):
             items.extend(read_info(info_file))
 
