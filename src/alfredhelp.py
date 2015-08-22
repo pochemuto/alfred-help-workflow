@@ -6,7 +6,10 @@ from workflow import Workflow, ICON_HELP
 
 
 def main(wf):
-    actions = scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+    def get_posts():
+        return scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+
+    actions = wf.cached_data('actions', get_posts, max_age=86400)
 
     if len(wf.args):
         query = wf.args[0]
@@ -29,7 +32,6 @@ def main(wf):
         )
     wf.send_feedback()
     return 0
-
 
 class Action:
     def __init__(self):
