@@ -2,36 +2,59 @@
 __author__ = u'pochemuto'
 import sys, plistlib, os, argparse
 from os import path
-from workflow import Workflow, ICON_HELP
+from workflow import Workflow, ICON_HELP, ICON_INFO
+from workflow.background import run_in_background, is_running
+
+CACHE_MAX_AGE = 12 * 60 * 60  # 12 hours
+log = None
 
 
 def main(wf):
-    def get_posts():
-        return scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument('--keywords', dest='show_keywords', action='store_true')
+    argparser.add_argument('--scan', action='store_true')
+    argparser.add_argument('query', nargs='?', default=None)
+    args = argparser.parse_args(wf.args)
 
-    actions = wf.cached_data('actions', get_posts, max_age=86400)
+    actions = wf.cached_data('actions', None, max_age=0)
 
-    if len(wf.args):
-        query = wf.args[0]
-    else:
-        query = None
+    if not wf.cached_data_fresh('actions', max_age=CACHE_MAX_AGE):
+        cmd = ['/usr/bin/python', wf.workflowfile('alfredhelp.py'), '--scan']
+        run_in_background(u'scan', cmd)
 
-    if query:
-        actions = wf.filter(query, actions, key=search_key)
-
-    for action in actions:
-        argument = action.keyword
-        if action.add_space:
-            argument += u' '
+    if is_running(u'scan'):
         wf.add_item(
-            title=u'{} - {}'.format(action.keyword, action.title),
-            subtitle=action.subtitle,
-            icon=action.icon,
-            arg=argument,
-            valid=True
+            title=u'Scanning alfred workflows...',
+            valid=False,
+            icon=ICON_INFO
         )
+
+    if args.show_keywords and actions:
+        if args.query:
+            actions = wf.filter(args.query, actions, key=search_key)
+
+        for action in actions:
+            argument = action.keyword
+            if action.add_space:
+                argument += u' '
+            wf.add_item(
+                title=u'{} - {}'.format(action.keyword, action.title),
+                subtitle=action.subtitle,
+                icon=action.icon,
+                arg=argument,
+                valid=True
+            )
+
+    elif args.scan:
+        def get_posts():
+            return scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+
+        wf.cached_data('actions', get_posts, max_age=CACHE_MAX_AGE)
+        scan(path.join(wf.alfred_env['preferences'], 'workflows'))
+
     wf.send_feedback()
     return 0
+
 
 class Action:
     def __init__(self):
@@ -42,10 +65,12 @@ class Action:
         self.workflow_name = None
         self.add_space = False
 
+
 def search_key(action):
     elements = [action.keyword, action.title, action.subtitle]
     elements = filter(lambda n: n is not None, elements)
     return u' '.join(elements)
+
 
 def read_info(info_file):
     items = []

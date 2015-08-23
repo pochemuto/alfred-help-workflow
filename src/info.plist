@@ -48,7 +48,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>script</key>
-				<string>python alfredhelp.py "{query}"</string>
+				<string>python alfredhelp.py --keywords "{query}"</string>
 				<key>title</key>
 				<string>List all registered alfred keywords</string>
 				<key>type</key>
