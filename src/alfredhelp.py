@@ -50,6 +50,8 @@ def search_key(action):
 def read_info(info_file):
     items = []
     plist = plistlib.readPlist(info_file)
+    if 'disabled' in plist and plist['disabled']:
+        return []
     wf_name = plist['name']
     wf_path = path.dirname(info_file)
     for object in plist['objects']:
