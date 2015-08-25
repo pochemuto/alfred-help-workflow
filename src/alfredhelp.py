@@ -18,6 +18,13 @@ def main(wf):
 
     actions = wf.cached_data('actions', None, max_age=0)
 
+    if wf.update_available:
+        # Add a notification to top of Script Filter results
+        wf.add_item(u'New version available',
+                    u'Action this item to install the update',
+                    autocomplete='workflow:update',
+                    icon=ICON_INFO)
+
     if not wf.cached_data_fresh('actions', max_age=CACHE_MAX_AGE):
         cmd = ['/usr/bin/python', wf.workflowfile('alfredhelp.py'), '--scan']
         run_in_background(u'scan', cmd)
@@ -122,6 +129,8 @@ def scan(workflows_dir):
     return items
 
 if __name__ == '__main__':
-    wf = Workflow()
+    wf = Workflow(update_settings={
+        'github_slug': 'pochemuto/alfred-help-workflow'
+    })
     log = wf.logger
     sys.exit(wf.run(main))
