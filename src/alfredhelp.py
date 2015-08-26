@@ -1,6 +1,6 @@
 #coding: utf
 __author__ = u'pochemuto'
-import sys, plistlib, os, argparse
+import sys, plistlib, os
 from os import path
 from workflow import Workflow, ICON_HELP, ICON_INFO
 from workflow.background import run_in_background, is_running
@@ -10,11 +10,7 @@ log = None
 
 
 def main(wf):
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument('--keywords', dest='show_keywords', action='store_true')
-    argparser.add_argument('--scan', action='store_true')
-    argparser.add_argument('query', nargs='?', default=None)
-    args = argparser.parse_args(wf.args)
+    args = Args(wf.args)
 
     actions = wf.cached_data('actions', None, max_age=0)
 
@@ -45,7 +41,7 @@ def main(wf):
             if action.add_space:
                 argument += u' '
             wf.add_item(
-                title=u'{} - {}'.format(action.keyword, action.title),
+                title=u'{keyword} - {title}'.format(keyword=action.keyword, title=action.title),
                 subtitle=action.subtitle,
                 icon=action.icon,
                 arg=argument,
@@ -72,6 +68,15 @@ class Action:
         self.workflow_name = None
         self.add_space = False
 
+class Args:
+    def __init__(self, args):
+        self.show_keywords = self.get_arg(args, 0) == '--keywords'
+        self.scan = self.get_arg(args, 0) == '--scan'
+        self.query = self.get_arg(args, 1)
+
+    @staticmethod
+    def get_arg(args, n, default=None):
+        return args[n] if len(args) > n else default
 
 def search_key(action):
     elements = [action.keyword, action.title, action.subtitle]
