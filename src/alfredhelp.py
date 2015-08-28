@@ -92,7 +92,6 @@ def read_info(info_file):
     wf_name = plist['name']
     wf_path = path.dirname(info_file)
     for object in plist['objects']:
-        tp = object['type']
         if 'config' in object and 'keyword' in object['config']:
             config = object['config']
 
@@ -124,7 +123,7 @@ def read_info(info_file):
 
 
 def scan(workflows_dir):
-    log.debug('scanning {}'.format(workflows_dir))
+    log.debug('scanning {0}'.format(workflows_dir))
     items = []
     for wf_dir in os.listdir(workflows_dir):
         info_file = path.join(workflows_dir, wf_dir, 'info.plist')
