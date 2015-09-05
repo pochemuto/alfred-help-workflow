@@ -53,7 +53,6 @@ def main(wf):
             return scan(path.join(wf.alfred_env['preferences'], 'workflows'))
 
         wf.cached_data('actions', get_posts, max_age=CACHE_MAX_AGE)
-        scan(path.join(wf.alfred_env['preferences'], 'workflows'))
 
     wf.send_feedback()
     return 0
