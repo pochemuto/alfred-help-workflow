@@ -4,3 +4,4 @@
 *.iws
 /out/
 .idea_modules/
+*.pyc
