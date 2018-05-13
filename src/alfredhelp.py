@@ -34,7 +34,7 @@ def main(wf):
 
     if args.show_keywords and actions:
         if args.query:
-            actions = wf.filter(args.query, actions, key=search_key, min_score=20)
+            actions = wf.filter(args.query, actions, key=search_key)
 
         for action in actions:
             argument = action.keyword
@@ -53,6 +53,7 @@ def main(wf):
             return scan(path.join(wf.alfred_env['preferences'], 'workflows'))
 
         wf.cached_data('actions', get_posts, max_age=CACHE_MAX_AGE)
+        scan(path.join(wf.alfred_env['preferences'], 'workflows'))
 
     wf.send_feedback()
     return 0
