@@ -34,7 +34,7 @@ def main(wf):
 
     if args.show_keywords and actions:
         if args.query:
-            actions = wf.filter(args.query, actions, key=search_key)
+            actions = wf.filter(args.query, actions, key=search_key, min_score=20)
 
         for action in actions:
             argument = action.keyword
