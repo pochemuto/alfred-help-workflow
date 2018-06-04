@@ -71,7 +71,7 @@
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>
-				<string>tell application "Alfred 2" to search "{query}"</string>
+				<string>tell application "Alfred 3" to search "{query}"</string>
 				<key>type</key>
 				<integer>6</integer>
 			</dict>
