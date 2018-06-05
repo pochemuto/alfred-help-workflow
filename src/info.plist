@@ -71,7 +71,11 @@
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>
-				<string>tell application "Alfred 3" to search "{query}"</string>
+				<string>set query to "{query}"
+tell application "Alfred 3" to search query
+if query does not end with " " then
+  tell application "System Events" to key code 36
+end if</string>
 				<key>type</key>
 				<integer>6</integer>
 			</dict>
