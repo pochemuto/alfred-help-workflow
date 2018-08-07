@@ -19,9 +19,6 @@ script:
   - VERSION=`cat version`
   - git commit -m "Start version ${VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip ci]"
 
-after_success:
-  - git push "https://${GH_TOKEN}@github.com/pochemuto/alfred-help-workflow.git" HEAD:master
-
 before_deploy:
   - git tag -f "v${RELEASE_VERSION}"
 
@@ -35,6 +32,10 @@ deploy:
   on:
     repo: pochemuto/alfred-help-workflow
     branch: master
+
+after_deploy:
+  - git push "https://${GH_TOKEN}@github.com/pochemuto/alfred-help-workflow.git" HEAD:master 
+
 env:
   global:
   - secure: JRX8M3toNaOpJYVDWvNfZkSsEPOjxFTDzsgfmfn9RooxbywfOiejAHSvnbtoSrz5xVyNSF7hRYkPpVEPdPz51M3vi8tRMjr30jOhABSfp8QBB89l9xDdrJFt82QXJPv6Lh8cLpui6pu2CZdiWwJLqfLzkwhnTymiV7WcB4Fsx8EBzhKfLo46MNziFwHwBx3lgD+2FvTTLnWuhoqjtWvqL+K9ubBJIlQP5ws1m2V/uchrrT1sMQfnlXZqVupx1vTWD3/7IxECgIvxaCFBYszklOVgQ3rlErz6bmyl2mSMLro/3blv5RoeYGvgkrA5y6s+tGFGelHIRI1Of+0NXXcT+oc3ikHylL62GwFFQaoW+XpHx+p/i1/i+IwICO/eD4Nf52PjSvejJH00F3hC7lnQKafa9vstp3SN9EBAJk7aPd87ip47KSgEpga++DQDPb2ZzDCT3PpZ2b2O0/SraKMIEAZOSOFQ1d2uGbt9/EPOaAxGTGOHthxh91tTT6OCbpuWRi4JGJcg+ttmPNrNmTLBp5PRe/GDiRbldQetEGf++wz8QzgZD331dc0cr4Z9z4KFw080GVvhiQQw4NqrznrlWWDBahXwNy1BG33UcNFIbjFLJKzja+zgUswFlUW/hUpvO29UtiGOwkNYcxxs6x8TZPEt02FwezldurzB/aqJlSY=

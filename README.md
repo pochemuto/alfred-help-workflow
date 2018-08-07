@@ -1,7 +1,9 @@
-Alfred Help Workflow
+Alfred Keywords
 --------------------
 
-[Latest Release](https://github.com/pochemuto/alfred-help-workflow/releases/latest)
+[Latest Release](https://github.com/pochemuto/alfred-help-workflow/releases/latest)  
+
+[![Build Status](https://travis-ci.org/pochemuto/alfred-help-workflow.svg?branch=master)](https://travis-ci.org/pochemuto/alfred-help-workflow)
 
 Usually, advanced by Alfred have many workflows. Some of them need to use very often, but when you need it is not easy to remember keyword. Alfred had to open the settings or google. At this point, breaks down magic Alfred.
 

@@ -51,7 +51,9 @@ def build():
   if 'version' in info:
     info['version'] = version
     plistlib.writePlist(info, INFO_PLIST_PATH)
-    
+
+  # workflows framework needs its own version file
+  shutil.copy('version', 'src/version') 
   pack(version)
 
 def zipdir(root, ziph, strip_root=False):
