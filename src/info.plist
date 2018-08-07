@@ -27,7 +27,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Alfred Keywords Help</string>
+	<string>Alfred Keywords</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -84,7 +84,9 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>
+	This workflow helps you remember the keyword. Just enter ? And the name of the action and you will see a list of available actions.
+	</string>
 	<key>uidata</key>
 	<dict>
 		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
@@ -99,7 +101,7 @@
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>1.2</string>
+	<string>unspecified</string>
 	<key>webaddress</key>
 	<string>https://github.com/pochemuto/alfred-help-workflow</string>
 </dict>
