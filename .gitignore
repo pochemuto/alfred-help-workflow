@@ -3,5 +3,7 @@
 *.ipr
 *.iws
 *.pyc
-/out/
 .idea_modules/
+*_cache/
+.vscode/
+/build/

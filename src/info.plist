@@ -90,14 +90,16 @@
 		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
+			<real>10.0</real>
 		</dict>
 		<key>786140ED-62A9-4C41-81E3-923FE306E61A</key>
 		<dict>
 			<key>ypos</key>
-			<real>10</real>
+			<real>10.0</real>
 		</dict>
 	</dict>
+	<key>version</key>
+	<string>1.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/pochemuto/alfred-help-workflow</string>
 </dict>

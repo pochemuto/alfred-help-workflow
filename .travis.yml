@@ -1,0 +1,40 @@
+language: python
+before_install:
+  if echo "$TRAVIS_COMMIT_MESSAGE" | grep -F -q "[skip ci]" ; then echo "[skip ci] found, exiting" && exit 0 ; fi 
+
+install:
+
+  - "./install-requirements.sh"
+  - python install.py --clean-install
+script:
+  - python install.py --version-release
+  - python install.py --build
+  - git config --global user.email "builds@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git add version
+  - RELEASE_VERSION=`cat version`
+  - git commit -m "Release version ${RELEASE_VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip ci]"
+  - python install.py --version-up
+  - git add version
+  - VERSION=`cat version`
+  - git commit -m "Start version ${VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip ci]"
+
+after_success:
+  - git push "https://${GH_TOKEN}@github.com/pochemuto/alfred-help-workflow.git" HEAD:master
+
+before_deploy:
+  - git tag -f "v${RELEASE_VERSION}"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: htuo05Y4pxJlHz+dXc3S9B05dlVyyXcfo+ce34tVDPAhdT57uO+PALWiEJLGJ6UCnfStIB5jRGrGO95LtFxeNggpTOL0VUzXE++A6TQBy5mHgvzcxkA909NeVc3OL/KKqvdlu50Ni+rIH9dYXkTe5s5AGVtEXfwJy0r8J/lbjo1ncKNT/+IGmthyAEzh8Cse6c/Uzi+JgiTWDceGKQ+5z5O8ctO5tdWHD/v9uLSNq+PTogEsrsf++V+V1syyjyqv8lvcxOFp01PbUW2pPBPIBZbG5wV6Zr2P2yFNh395oTyUlj8BejR/egN/j8Yls/B7qY0RIrsYYpCree0hJIkunRlTg5t5qDEYn3kUwnlnG5TcHyB7XoV+8jeirGvgqUODtZOE0iG2i97NhAGXsktry+GYAymkVeGn9j3v0xBPUMTGW8bWfCWTlyK+PatWyxo8D7MeQVy1MfN1PpiXPLSsxTdAc768BMhsTYqjfSXVsnqRrDW/HKg5UPawpciL/oaOSlYMVlt3SHyZXAYRA45gaZKsnjCoGsNLuZK6hcQQ3G1/5jA24NkfKu0AlHmNSetg54afiNl97OoA9P06SVEk/FWp2UKKbrqQ/SHtuMepXqtb1vDcCaqRNDEttfwDSIapakkB7pi82791BY4N49Jm6yVWLQvNydib42hvcsWHDck=
+  file_glob: true
+  file: build/*.alfredworkflow
+  skip_cleanup: true
+  on:
+    repo: pochemuto/alfred-help-workflow
+    branch: master
+env:
+  global:
+  - secure: JRX8M3toNaOpJYVDWvNfZkSsEPOjxFTDzsgfmfn9RooxbywfOiejAHSvnbtoSrz5xVyNSF7hRYkPpVEPdPz51M3vi8tRMjr30jOhABSfp8QBB89l9xDdrJFt82QXJPv6Lh8cLpui6pu2CZdiWwJLqfLzkwhnTymiV7WcB4Fsx8EBzhKfLo46MNziFwHwBx3lgD+2FvTTLnWuhoqjtWvqL+K9ubBJIlQP5ws1m2V/uchrrT1sMQfnlXZqVupx1vTWD3/7IxECgIvxaCFBYszklOVgQ3rlErz6bmyl2mSMLro/3blv5RoeYGvgkrA5y6s+tGFGelHIRI1Of+0NXXcT+oc3ikHylL62GwFFQaoW+XpHx+p/i1/i+IwICO/eD4Nf52PjSvejJH00F3hC7lnQKafa9vstp3SN9EBAJk7aPd87ip47KSgEpga++DQDPb2ZzDCT3PpZ2b2O0/SraKMIEAZOSOFQ1d2uGbt9/EPOaAxGTGOHthxh91tTT6OCbpuWRi4JGJcg+ttmPNrNmTLBp5PRe/GDiRbldQetEGf++wz8QzgZD331dc0cr4Z9z4KFw080GVvhiQQw4NqrznrlWWDBahXwNy1BG33UcNFIbjFLJKzja+zgUswFlUW/hUpvO29UtiGOwkNYcxxs6x8TZPEt02FwezldurzB/aqJlSY=
