@@ -1,6 +1,6 @@
 #coding: utf
 __author__ = u'pochemuto'
-import sys, plistlib, os
+import sys, plistlib, os, operator
 from os import path
 from workflow import Workflow, ICON_HELP, ICON_INFO
 from workflow.background import run_in_background, is_running
@@ -33,6 +33,9 @@ def main(wf):
         )
 
     if args.show_keywords and actions:
+        # Alphabetize initial results by keyword.
+        actions = sorted(actions, key=operator.attrgetter('keyword'))
+
         if args.query:
             actions = wf.filter(args.query, actions, key=search_key, min_score=20)
 
