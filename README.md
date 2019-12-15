@@ -16,3 +16,7 @@ Find action with url:
 How to convert date:
 
 ![action to convert date](https://pochemuto.github.io/alfred-help-workflow/images/ss-convert-date.png)
+
+## Development
+- install [poetry](https://python-poetry.org/)
+- run `poetry run python install.py --build`. It will produce folders with workflows in `build` folder and packaged versions in `build/dist`

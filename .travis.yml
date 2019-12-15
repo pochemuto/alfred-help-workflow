@@ -1,41 +1,42 @@
 language: python
+python:
+- '2.7'
 before_install:
-  if echo "$TRAVIS_COMMIT_MESSAGE" | grep -F -q "[skip ci]" ; then echo "[skip ci] found, exiting" && exit 0 ; fi 
-
+- if echo "$TRAVIS_COMMIT_MESSAGE" | grep -F -q "[skip ci]" ; then echo "[skip ci]
+  found, exiting" && exit 0 ; fi
+- pip install poetry
 install:
-
-  - "./install-requirements.sh"
-  - python install.py --clean-install
+- poetry install
 script:
-  - python install.py --version-release
-  - python install.py --build
-  - git config --global user.email "builds@travis-ci.org"
-  - git config --global user.name "Travis CI"
-  - git add version
-  - RELEASE_VERSION=`cat version`
-  - git commit -m "Release version ${RELEASE_VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip ci]"
-  - python install.py --version-up
-  - git add version
-  - VERSION=`cat version`
-  - git commit -m "Start version ${VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip ci]"
-
+- poetry version minor
+- poetry run python install.py --build
+- git config --global user.email "builds@travis-ci.org"
+- git config --global user.name "Travis CI"
+- RELEASE_VERSION=`poetry version | awk '{print $2}'`
+- git add pyproject.toml
+- git commit -m "Release version ${RELEASE_VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER
+  [skip ci]"
+- poetry version preminor
+- git add pyproject.toml
+- VERSION=`poetry version | awk '{print $2}'`
+- git commit -m "Start version ${VERSION}" -m "Travis build $TRAVIS_BUILD_NUMBER [skip
+  ci]"
 before_deploy:
-  - git tag -f "v${RELEASE_VERSION}"
-
+- git tag -f "v${RELEASE_VERSION}"
 deploy:
   provider: releases
   api_key:
-    secure: htuo05Y4pxJlHz+dXc3S9B05dlVyyXcfo+ce34tVDPAhdT57uO+PALWiEJLGJ6UCnfStIB5jRGrGO95LtFxeNggpTOL0VUzXE++A6TQBy5mHgvzcxkA909NeVc3OL/KKqvdlu50Ni+rIH9dYXkTe5s5AGVtEXfwJy0r8J/lbjo1ncKNT/+IGmthyAEzh8Cse6c/Uzi+JgiTWDceGKQ+5z5O8ctO5tdWHD/v9uLSNq+PTogEsrsf++V+V1syyjyqv8lvcxOFp01PbUW2pPBPIBZbG5wV6Zr2P2yFNh395oTyUlj8BejR/egN/j8Yls/B7qY0RIrsYYpCree0hJIkunRlTg5t5qDEYn3kUwnlnG5TcHyB7XoV+8jeirGvgqUODtZOE0iG2i97NhAGXsktry+GYAymkVeGn9j3v0xBPUMTGW8bWfCWTlyK+PatWyxo8D7MeQVy1MfN1PpiXPLSsxTdAc768BMhsTYqjfSXVsnqRrDW/HKg5UPawpciL/oaOSlYMVlt3SHyZXAYRA45gaZKsnjCoGsNLuZK6hcQQ3G1/5jA24NkfKu0AlHmNSetg54afiNl97OoA9P06SVEk/FWp2UKKbrqQ/SHtuMepXqtb1vDcCaqRNDEttfwDSIapakkB7pi82791BY4N49Jm6yVWLQvNydib42hvcsWHDck=
+    secure: Xlu114ePToyscFkmN44m1I2lgfj8Nr8sMnY3oyQ+LfMTG9gN4tQqK8/DWUokrUbhbV2ywZTy5vFwXWmBWpn9kKTRvo0x8ytmxFz6pFZIdTkJT9GFm5p7vXjRqkkj474gilkprEty090FICPNvT4TwA+EoOY6W8WM2Z+woyzxtB7M9bXKS1LJ3T1vAcIQXt/1p85dKeTkusI21LOCUncu+ZMYK6rTAPDewcE5sw+iCji7h67pQ9EoHbVVZEecEuYgUfm6XYm3ykVA9O3RK1t+rX/LR8C+tuN+zdBC07oEURvof/hVffdNy24VtyPyuTND5wpho7/5qvqvcB8FYiZXMMBBMELL7XXuhv5F+Kk1KbSdgmtaZLq51RiYDczTwjxKc2ggP3/mUwDu6OBVkDhZgjywTQnLb1IOMLmfpj22LzD+yXmXcGwhcwotQ2Nww+0Pl7Ka6alZKZu2AI0C7nyDhOOD993LqwTEiSGYiQFYvVUQKBBafRz11p1jwu/fSMhkHLh34MS93nUb7XbdLppQf8MFEhKCwTModB4aG0kkXsYplGEJJQx3dYjXLdMDxcJGU1u5aMZssTiBParHYE59vt/uTRtJ3MSbislDsZHthFLjwVPVHQikAvRxsMn9Rbja0GN+I7GyGXZ0oFONXvGDtquJsrH1NT9wXVPu0rbmiqE=
   file_glob: true
-  file: build/*.alfredworkflow
+  file: build/dist/*
   skip_cleanup: true
   on:
     repo: pochemuto/alfred-help-workflow
     branch: master
-
 after_deploy:
-  - git push "https://${GH_TOKEN}@github.com/pochemuto/alfred-help-workflow.git" HEAD:master 
-
+- git push "https://pochemuto:${GITHUB_PERSONAL_TOKEN}@github.com/pochemuto/alfred-help-workflow.git"
+  HEAD:master
 env:
   global:
   - secure: JRX8M3toNaOpJYVDWvNfZkSsEPOjxFTDzsgfmfn9RooxbywfOiejAHSvnbtoSrz5xVyNSF7hRYkPpVEPdPz51M3vi8tRMjr30jOhABSfp8QBB89l9xDdrJFt82QXJPv6Lh8cLpui6pu2CZdiWwJLqfLzkwhnTymiV7WcB4Fsx8EBzhKfLo46MNziFwHwBx3lgD+2FvTTLnWuhoqjtWvqL+K9ubBJIlQP5ws1m2V/uchrrT1sMQfnlXZqVupx1vTWD3/7IxECgIvxaCFBYszklOVgQ3rlErz6bmyl2mSMLro/3blv5RoeYGvgkrA5y6s+tGFGelHIRI1Of+0NXXcT+oc3ikHylL62GwFFQaoW+XpHx+p/i1/i+IwICO/eD4Nf52PjSvejJH00F3hC7lnQKafa9vstp3SN9EBAJk7aPd87ip47KSgEpga++DQDPb2ZzDCT3PpZ2b2O0/SraKMIEAZOSOFQ1d2uGbt9/EPOaAxGTGOHthxh91tTT6OCbpuWRi4JGJcg+ttmPNrNmTLBp5PRe/GDiRbldQetEGf++wz8QzgZD331dc0cr4Z9z4KFw080GVvhiQQw4NqrznrlWWDBahXwNy1BG33UcNFIbjFLJKzja+zgUswFlUW/hUpvO29UtiGOwkNYcxxs6x8TZPEt02FwezldurzB/aqJlSY=
+  - secure: H6F6cyVq0qNBtF2vtRC+ZR2QmChbxhziBGEVC7BeQfecmVMRvG/faVXZpJKOQ1hIkRGcXGsOpZIhAQvcXTXbxS3yXLilcIkjQfWH5OZzhIM+3mh4gNtOxfn26Yja2ULv0NtNE/bQMRyxf/WK2s8Ot5AxUDt017FkG0GcyY0738pU28PTjvgXZ5fY0V1qC5qpeo7DsswIOZCbd8FXEUvpKabifaNg+2Mo8UESHWGexib2/E7OS/uC581g7DG2N3G4sdCZGuClDRVFkJk6dc5F1jT3S0zUZdn2etZMpEKm/cwsK7w0vowYOD0+xrVe34LjdoFcZMv6WEj5zJmCyJaC3gACtsfG8WjX2K1kRVB4TzZ9PshrwPCXgvh81mi2KVwmiYNmd6YsvIj2rUEHbpKNV3HuPLqmJWNkezbDjzvYmQ9SM7TDjfNGkqo1fH8gegm3WAuKGt9fZmyQ1+YtUDmRfYRcJj+Gmlr2PR2nq/sciHuG3xKwgv35CEOcjMaWzBgJu4gO+g8rI9zCXxN93nVJzKVWyCWfElyLumzQR9/D34RUz7jtHMO7EEYfxFmZdfSqOhwaF90dMZypqz1/X4wJZtMmcqcLOlJA0X9hcw+iZgoz4CzIzr8xDhQjMFkeyMc6XlQtP0mE6jhMbDrU7MA01sS8NlNKMM64EK9E9a4Qsz0=
