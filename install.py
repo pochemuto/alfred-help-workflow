@@ -23,7 +23,8 @@ parser.add_argument('--build', action='store_true')
 
 TARGET_ALFRED_VERSIONS = [
     {'dir': 'alfred-2', 'ext': 'alfredworkflow'},
-    {'dir': 'alfred-3', 'ext': 'alfred3workflow'}
+    {'dir': 'alfred-3', 'ext': 'alfred3workflow'},
+    {'dir': 'alfred-4', 'ext': 'alfred4workflow'}
 ]
 
 
