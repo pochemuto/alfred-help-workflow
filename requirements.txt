@@ -1,1 +1,0 @@
-Alfred-Workflow==1.36

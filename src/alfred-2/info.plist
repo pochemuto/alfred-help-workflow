@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.pochemuto.alfred.workflow.AlfredHelp</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>786140ED-62A9-4C41-81E3-923FE306E61A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>pochemuto</string>
+	<key>description</key>
+	<string>List all alfred keywords</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Alfred Keywords</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>?</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>script</key>
+				<string>python alfredhelp.py --keywords "{query}"</string>
+				<key>title</key>
+				<string>List all registered alfred keywords</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>68637FD7-2E45-4403-B3E4-DD061FD0FF47</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>tell application "Alfred 2" to search "{query}"</string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>786140ED-62A9-4C41-81E3-923FE306E61A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>
+	This workflow helps you remember the keyword. Just enter ? And the name of the action and you will see a list of available actions.
+	</string>
+	<key>uidata</key>
+	<dict>
+		<key>68637FD7-2E45-4403-B3E4-DD061FD0FF47</key>
+		<dict>
+			<key>ypos</key>
+			<real>10.0</real>
+		</dict>
+		<key>786140ED-62A9-4C41-81E3-923FE306E61A</key>
+		<dict>
+			<key>ypos</key>
+			<real>10.0</real>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>unspecified</string>
+	<key>webaddress</key>
+	<string>https://github.com/pochemuto/alfred-help-workflow</string>
+</dict>
+</plist>
